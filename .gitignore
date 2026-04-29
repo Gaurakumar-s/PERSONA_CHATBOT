@@ -1,0 +1,13 @@
+# Ignore real env file — NEVER commit API keys
+.env
+
+# Node modules
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/

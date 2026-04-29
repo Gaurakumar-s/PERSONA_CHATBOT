@@ -1,0 +1,18 @@
+{
+  "name": "scaler-ai-personas",
+  "version": "1.0.0",
+  "description": "Persona-based AI chatbot for Scaler/InterviewBit personalities using Google Gemini",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

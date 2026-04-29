@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scaler AI Personas — Chat with Anshuman, Abhimanyu & Kshitij</title>
+  <meta name="description" content="Have real AI-powered conversations with three Scaler/InterviewBit personalities — Anshuman Singh, Abhimanyu Saxena, and Kshitij Mishra. Powered by Google Gemini." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Background Gradient Orbs -->
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="brand-logo">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="8" fill="url(#logoGrad)"/>
+            <path d="M7 14L11 18L21 8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="0" y1="0" x2="28" y2="28">
+                <stop offset="0%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#8b5cf6"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">Scaler AI Personas</h1>
+          <p class="brand-subtitle">Powered by Google Gemini</p>
+        </div>
+      </div>
+      <div class="header-badge">
+        <span class="pulse-dot"></span>
+        <span id="active-persona-badge">Anshuman Singh</span>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <!-- Persona Switcher -->
+      <section class="persona-switcher" aria-label="Persona selector">
+        <button
+          id="btn-anshuman"
+          class="persona-btn active"
+          data-persona="anshuman"
+          aria-pressed="true"
+        >
+          <div class="persona-avatar" style="background: linear-gradient(135deg, #6366f1, #8b5cf6)">A</div>
+          <div class="persona-info">
+            <span class="persona-name">Anshuman Singh</span>
+            <span class="persona-role">Co-founder, Scaler</span>
+          </div>
+          <div class="persona-indicator"></div>
+        </button>
+
+        <button
+          id="btn-abhimanyu"
+          class="persona-btn"
+          data-persona="abhimanyu"
+          aria-pressed="false"
+        >
+          <div class="persona-avatar" style="background: linear-gradient(135deg, #0ea5e9, #06b6d4)">A</div>
+          <div class="persona-info">
+            <span class="persona-name">Abhimanyu Saxena</span>
+            <span class="persona-role">Co-founder, Scaler</span>
+          </div>
+          <div class="persona-indicator"></div>
+        </button>
+
+        <button
+          id="btn-kshitij"
+          class="persona-btn"
+          data-persona="kshitij"
+          aria-pressed="false"
+        >
+          <div class="persona-avatar" style="background: linear-gradient(135deg, #f59e0b, #ef4444)">K</div>
+          <div class="persona-info">
+            <span class="persona-name">Kshitij Mishra</span>
+            <span class="persona-role">Head of Instructors, Scaler</span>
+          </div>
+          <div class="persona-indicator"></div>
+        </button>
+      </section>
+
+      <!-- Chat Area -->
+      <div class="chat-wrapper">
+        <!-- Active Persona Banner -->
+        <div class="persona-banner" id="persona-banner">
+          <div class="banner-avatar" id="banner-avatar">A</div>
+          <div class="banner-content">
+            <h2 class="banner-name" id="banner-name">Anshuman Singh</h2>
+            <p class="banner-desc" id="banner-desc">Co-founder of Scaler & InterviewBit · Ex-Facebook · IIIT Hyderabad · Competitive programmer turned ed-tech pioneer</p>
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="messages-container" id="messages-container" role="log" aria-live="polite" aria-label="Chat messages">
+          <!-- Welcome message injected by JS -->
+        </div>
+
+        <!-- Suggestion Chips -->
+        <div class="chips-wrapper" id="chips-wrapper">
+          <div class="chips-label">Quick questions:</div>
+          <div class="chips-row" id="chips-row">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+          <div class="input-wrapper">
+            <textarea
+              id="user-input"
+              class="chat-input"
+              placeholder="Ask Anshuman anything..."
+              rows="1"
+              maxlength="2000"
+              aria-label="Type your message"
+            ></textarea>
+            <button id="send-btn" class="send-btn" aria-label="Send message" disabled>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M2 10L18 2L10 18L8 12L2 10Z" fill="currentColor"/>
+              </svg>
+            </button>
+          </div>
+          <p class="input-hint">Conversations reset when you switch persona · Responses may not reflect real individuals' views</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Error Toast -->
+  <div class="toast" id="error-toast" role="alert" aria-live="assertive">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <circle cx="8" cy="8" r="7" stroke="#ef4444" stroke-width="1.5"/>
+      <path d="M8 5V8" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="8" cy="11" r="0.75" fill="#ef4444"/>
+    </svg>
+    <span id="toast-message">Something went wrong. Please try again.</span>
+  </div>
+
+  <!-- API key injected by server — never hardcoded -->
+  <script src="/config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
