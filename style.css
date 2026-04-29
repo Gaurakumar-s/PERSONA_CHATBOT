@@ -757,97 +757,262 @@ body {
 }
 
 /* ===========================
+   Responsive — Tablet
+   =========================== */
+@media (min-width: 641px) and (max-width: 768px) {
+  .persona-switcher {
+    grid-template-columns: 1fr 1fr;
+  }
+  .persona-btn:last-child {
+    grid-column: span 2;
+  }
+}
+
+/* ===========================
    Responsive — Mobile
    =========================== */
 @media (max-width: 640px) {
+
+  /* --- Layout --- */
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
   .app-container {
-    padding: 0 12px;
+    padding: 0;
+    height: 100vh;
+    height: 100dvh; /* dynamic viewport height for mobile browsers */
+    overflow: hidden;
+  }
+
+  .app-main {
+    flex: 1;
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  /* --- Header --- */
+  .app-header {
+    padding: 12px 16px;
+    flex-shrink: 0;
   }
 
   .brand-title {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .brand-logo svg {
+    width: 24px;
+    height: 24px;
   }
 
   .header-badge {
-    max-width: 140px;
-    font-size: 0.7rem;
-    padding: 5px 10px;
+    font-size: 0.68rem;
+    padding: 4px 10px;
+    max-width: 130px;
   }
 
+  /* --- Persona Switcher: horizontal scrollable tabs on mobile --- */
   .persona-switcher {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: row;
     gap: 8px;
+    overflow-x: auto;
+    padding: 10px 16px;
+    flex-shrink: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--bg-secondary);
+  }
+
+  .persona-switcher::-webkit-scrollbar {
+    display: none;
   }
 
   .persona-btn {
-    padding: 12px;
+    flex-shrink: 0;
+    padding: 10px 14px;
+    gap: 8px;
+    border-radius: var(--radius-md);
+    min-width: 140px;
+  }
+
+  .persona-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+
+  .persona-name {
+    font-size: 0.82rem;
   }
 
   .persona-role {
     display: none;
   }
 
+  /* --- Chat Wrapper: fill remaining space --- */
+  .chat-wrapper {
+    flex: 1;
+    min-height: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* --- Persona Banner --- */
   .persona-banner {
-    padding: 16px;
+    padding: 12px 16px;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .banner-avatar {
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+  }
+
+  .banner-name {
+    font-size: 0.95rem;
+    margin-bottom: 0;
   }
 
   .banner-desc {
     display: none;
   }
 
-  .banner-avatar {
-    width: 42px;
-    height: 42px;
+  /* --- Messages --- */
+  .messages-container {
+    flex: 1;
+    padding: 14px 16px;
+    gap: 12px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
-  .messages-container {
-    padding: 16px;
+  .message {
+    gap: 8px;
+  }
+
+  .message-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 0.65rem;
   }
 
   .message-bubble {
-    max-width: 86%;
-    padding: 12px 14px;
+    max-width: 82%;
+    padding: 10px 13px;
     font-size: 0.85rem;
+    line-height: 1.55;
   }
 
+  .message-time {
+    font-size: 0.6rem;
+  }
+
+  /* --- Welcome Screen --- */
+  .welcome-message {
+    padding: 20px 16px;
+    gap: 8px;
+  }
+
+  .welcome-icon {
+    width: 52px;
+    height: 52px;
+    font-size: 1.5rem;
+  }
+
+  .welcome-title {
+    font-size: 1.05rem;
+  }
+
+  .welcome-subtitle {
+    font-size: 0.8rem;
+    max-width: 100%;
+  }
+
+  /* --- Chips --- */
   .chips-wrapper {
-    padding: 10px 16px 14px;
+    padding: 8px 16px 10px;
+    flex-shrink: 0;
+  }
+
+  .chips-label {
+    font-size: 0.65rem;
+    margin-bottom: 6px;
+  }
+
+  .chips-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+
+  .chips-row::-webkit-scrollbar {
+    display: none;
   }
 
   .chip {
-    font-size: 0.73rem;
-    padding: 6px 12px;
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    padding: 5px 11px;
   }
 
+  /* --- Input Area --- */
   .input-area {
-    padding: 12px 16px 16px;
+    padding: 10px 16px 14px;
+    flex-shrink: 0;
+    gap: 6px;
+    background: var(--bg-card);
   }
 
-  .chat-wrapper {
-    min-height: 400px;
+  .chat-input {
+    font-size: 0.88rem;
+    padding: 10px 14px;
+    border-radius: 20px;
   }
 
+  .send-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  .input-hint {
+    font-size: 0.62rem;
+    line-height: 1.3;
+  }
+
+  /* --- Toast --- */
   .toast {
     bottom: 16px;
-    right: 16px;
-    left: 16px;
+    right: 12px;
+    left: 12px;
     max-width: none;
-  }
-}
-
-@media (max-width: 420px) {
-  .persona-switcher {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (min-width: 641px) and (max-width: 768px) {
-  .persona-switcher {
-    grid-template-columns: 1fr 1fr;
+    font-size: 0.8rem;
   }
 
-  .persona-btn:last-child {
-    grid-column: span 2;
+  /* --- Disable orb animations for performance --- */
+  .bg-orb {
+    opacity: 0.06;
+    animation: none;
   }
 }
 
