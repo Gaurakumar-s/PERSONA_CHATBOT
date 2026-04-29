@@ -161,6 +161,15 @@ body::before {
 .message { display:flex; gap:12px; animation:msgIn 0.3s var(--ease-out); }
 @keyframes msgIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 .message.user { flex-direction:row-reverse; }
+
+/* Inner wrapper — max-width here is relative to messages-container */
+.message-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 70%;
+  min-width: 0;
+}
 .message-avatar {
   width:32px; height:32px; border-radius:var(--radius-xs);
   display:flex; align-items:center; justify-content:center;
@@ -171,9 +180,13 @@ body::before {
 .message.user .message-avatar { background:var(--ink-primary); }
 
 .message-bubble {
-  max-width:70%; min-width:48px; padding:13px 17px;
+  width: fit-content;
+  min-width: 48px;
+  padding:13px 17px;
   border-radius:var(--radius-md);
   font-size:0.88rem; line-height:1.7; word-wrap:break-word;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 .message.ai .message-bubble { background:var(--bg-raised); color:var(--ink-primary); border:1px solid var(--border-soft); border-bottom-left-radius:4px; box-shadow:var(--shadow-xs); }
 .message.user .message-bubble { background:var(--active-h); color:rgba(255,255,255,0.95); border-bottom-right-radius:4px; box-shadow:var(--shadow-sm); }
