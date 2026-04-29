@@ -251,12 +251,14 @@ function switchPersona(personaKey) {
 
   const p = PERSONAS[personaKey];
 
+  // Update data-persona on <html> for CSS custom property switching
+  document.documentElement.setAttribute('data-persona', personaKey);
+
   // Update banner
   bannerName.textContent = p.name;
   bannerDesc.textContent = p.desc;
   bannerAvatar.textContent = p.initial;
-  bannerAvatar.style.background = p.gradient;
-  personaBanner.style.background = `linear-gradient(90deg, ${p.color}18, transparent)`;
+  bannerAvatar.className = `banner-avatar av-${personaKey}`;
 
   // Update header badge
   activePersonaBadge.textContent = p.name;
@@ -265,18 +267,18 @@ function switchPersona(personaKey) {
   userInput.placeholder = p.placeholder;
 
   // Update active button
-  document.querySelectorAll(".persona-btn").forEach(btn => {
+  document.querySelectorAll('.persona-btn').forEach(btn => {
     const isActive = btn.dataset.persona === personaKey;
-    btn.classList.toggle("active", isActive);
-    btn.setAttribute("aria-pressed", String(isActive));
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', String(isActive));
   });
 
   // Update chips
-  renderChips(p.chips, p.color);
+  renderChips(p.chips);
 
   // Animate transition
-  chatWrapper.classList.add("switching");
-  setTimeout(() => chatWrapper.classList.remove("switching"), 400);
+  chatWrapper.classList.add('switching');
+  setTimeout(() => chatWrapper.classList.remove('switching'), 400);
 
   // Render welcome message
   renderWelcome(p);
@@ -285,16 +287,15 @@ function switchPersona(personaKey) {
 // =============================================
 // RENDER CHIPS
 // =============================================
-function renderChips(chips, color) {
-  chipsRow.innerHTML = "";
+function renderChips(chips) {
+  chipsRow.innerHTML = '';
   chips.forEach(text => {
-    const btn = document.createElement("button");
-    btn.className = "chip";
+    const btn = document.createElement('button');
+    btn.className = 'chip';
     btn.textContent = text;
-    btn.style.cssText = `color: ${color}; border-color: ${color}40; background: ${color}12;`;
-    btn.addEventListener("click", () => {
+    btn.addEventListener('click', () => {
       userInput.value = text;
-      userInput.dispatchEvent(new Event("input"));
+      userInput.dispatchEvent(new Event('input'));
       sendMessage();
     });
     chipsRow.appendChild(btn);
@@ -307,7 +308,7 @@ function renderChips(chips, color) {
 function renderWelcome(persona) {
   messagesContainer.innerHTML = `
     <div class="welcome-message">
-      <div class="welcome-icon" style="background: ${persona.gradient}">${persona.initial}</div>
+      <div class="welcome-icon av-${currentPersona}">${persona.initial}</div>
       <h2 class="welcome-title">Chat with ${persona.name}</h2>
       <p class="welcome-subtitle">${persona.welcome}</p>
     </div>
@@ -338,7 +339,7 @@ function appendMessage(role, text) {
   const avatarEl = document.createElement("div");
   avatarEl.className = "message-avatar";
   avatarEl.textContent = isUser ? "You" : p.initial;
-  if (!isUser) avatarEl.style.background = p.gradient;
+  if (!isUser) avatarEl.className = `message-avatar av-${currentPersona}`;
 
   const bubble = document.createElement("div");
   bubble.className = "message-bubble";
@@ -534,14 +535,12 @@ userInput.addEventListener("input", () => {
 // =============================================
 function init() {
   const p = PERSONAS[currentPersona];
-  bannerAvatar.style.background = p.gradient;
-  personaBanner.style.background = `linear-gradient(90deg, ${p.color}18, transparent)`;
-  renderChips(p.chips, p.color);
+  document.documentElement.setAttribute('data-persona', currentPersona);
+  renderChips(p.chips);
   renderWelcome(p);
 
-  // Activate first button
-  document.getElementById("btn-anshuman").classList.add("active");
-  document.getElementById("btn-anshuman").setAttribute("aria-pressed", "true");
+  document.getElementById('btn-anshuman').classList.add('active');
+  document.getElementById('btn-anshuman').setAttribute('aria-pressed', 'true');
 }
 
 init();
