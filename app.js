@@ -1,13 +1,11 @@
 // =============================================
 // SCALER AI PERSONA CHATBOT — app.js
-// Uses Google Gemini API via environment config
+// API calls routed through /api/chat serverless function
+// Works on Vercel (serverless) and local Express server
 // =============================================
 
-// --- API KEY (loaded from .env via server, or window.ENV) ---
-// For local dev: use a simple express proxy or Vite env
-// For production: key is set in Vercel env vars
-const API_KEY = window.GEMINI_API_KEY || "";
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
+// All API calls go through our server-side proxy — key never exposed to client
+const PROXY_URL = "/api/chat";
 
 // =============================================
 // SYSTEM PROMPTS — One per persona
@@ -435,53 +433,31 @@ function showError(msg) {
 // CALL GEMINI API
 // =============================================
 async function callGemini(userText) {
-  if (!API_KEY) {
-    throw new Error("Gemini API key not configured. Please check your .env file.");
-  }
-
   const systemPrompt = SYSTEM_PROMPTS[currentPersona];
 
-  // Build contents array: system prompt as first user turn (Gemini 1.5 style)
   const contents = [
     ...conversationHistory,
     { role: "user", parts: [{ text: userText }] }
   ];
 
-  const payload = {
-    system_instruction: {
-      parts: [{ text: systemPrompt }]
-    },
-    contents: contents,
-    generationConfig: {
-      temperature: 0.85,
-      maxOutputTokens: 512,
-      topP: 0.95
-    },
-    safetySettings: [
-      { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-      { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
-    ]
-  };
-
-  const response = await fetch(API_URL, {
+  const response = await fetch(PROXY_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
+    body: JSON.stringify({ systemPrompt, contents })
   });
 
+  const data = await response.json();
+
   if (!response.ok) {
-    const err = await response.json().catch(() => ({}));
-    const errMsg = err?.error?.message || `API error ${response.status}`;
-    if (response.status === 400) throw new Error("Invalid request. Check your API key.");
+    const msg = data?.error || `Server error ${response.status}`;
     if (response.status === 429) throw new Error("Rate limit reached. Please wait a moment.");
-    if (response.status === 403) throw new Error("API key unauthorized. Check your .env file.");
-    throw new Error(errMsg);
+    if (response.status === 500 && msg.includes("not configured"))
+      throw new Error("API key not set on server. Check Vercel environment variables.");
+    throw new Error(msg);
   }
 
-  const data = await response.json();
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) throw new Error("Empty response from Gemini. Please try again.");
-  return text;
+  if (!data.text) throw new Error("Empty response from Gemini. Please try again.");
+  return data.text;
 }
 
 // =============================================
