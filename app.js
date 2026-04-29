@@ -353,7 +353,7 @@ function appendMessage(role, text) {
   inner.style.display = "flex";
   inner.style.flexDirection = "column";
   inner.style.gap = "4px";
-  inner.style.maxWidth = "72%";
+  inner.style.minWidth = "0";
   inner.appendChild(bubble);
   inner.appendChild(timeEl);
 
